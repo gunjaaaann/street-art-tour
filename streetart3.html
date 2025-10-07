@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Melbourne Map</title>
+
+  <!-- Leaflet CSS and JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    #map {
+      height: 100vh;
+      width: 100%;
+    }
+
+    .leaflet-popup-content a {
+      color: #00bfa5;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .leaflet-popup-content a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+    // Initialize the map centered on Melbourne
+    const map = L.map('map').setView([-37.8136, 144.9631], 12);
+
+    // Add OpenStreetMap tiles (free to use)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Example clickable pins (add your own)
+    const locations = [
+      { name: "Flinders Street Station", coords: [-37.8183, 144.9671], url: "/projects/flinders.html" },
+      { name: "Melbourne Museum", coords: [-37.8033, 144.9717], url: "/projects/museum.html" },
+      { name: "RMIT Design Hub", coords: [-37.8075, 144.9622], url: "/projects/rmit.html" },
+      { name: "ACMI", coords: [-37.8175, 144.9681], url: "/projects/acmi.html" }
+    ];
+
+    // Add pins and make them clickable
+    locations.forEach(loc => {
+      const marker = L.marker(loc.coords).addTo(map);
+      marker.bindPopup(`<b>${loc.name}</b><br><a href="${loc.url}">Visit page →</a>`);
+      marker.on('click', () => window.location.href = loc.url); // Optional: go straight to link on click
+    });
+  </script>
+</body>
+</html>
